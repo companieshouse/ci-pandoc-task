@@ -4,7 +4,7 @@ ARG PANDOC_VERSION="3.1.3"
 
 RUN dnf upgrade -y \
   && dnf update \
-  && dnf install -y tar-2:1.34 findutils-1:4.8.0 \
+  && dnf install -y tar-2:1.34 findutils-1:4.8.0 file-5.39 \
   && dnf clean all \
   && arch=$(uname -m) \
   && if [ "${arch}" = "aarch64" ]; then arch="arm64"; elif [ "${arch}" = "x86_64" ]; then arch="amd64"; fi \
@@ -14,7 +14,7 @@ RUN dnf upgrade -y \
   && tar xvzf /opt/pandoc.tar.gz --strip-components 1 -C /usr/ \
   && rm /opt/pandoc.tar.gz
 
-LABEL base.image="alpine:3.12" \
+LABEL base.image="ci-base-build:1.0.0" \
   repostory.name="ci-pandoc-task"
 
 ENTRYPOINT [ "/bin/bash" ]
