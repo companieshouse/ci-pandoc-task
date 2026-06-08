@@ -1,10 +1,10 @@
-FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-base-build:1.0.0
+FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-base-build:1.0.5
 
-ARG PANDOC_VERSION="3.1.3"
+ARG PANDOC_VERSION="3.10"
 
 RUN dnf upgrade -y \
   && dnf update \
-  && dnf install -y tar-2:1.34 findutils-1:4.8.0 file-5.39 \
+  && dnf install -y findutils-1:4.8.0 file-5.39 \
   && dnf clean all \
   && arch=$(uname -m) \
   && if [ "${arch}" = "aarch64" ]; then arch="arm64"; elif [ "${arch}" = "x86_64" ]; then arch="amd64"; fi \
@@ -14,7 +14,7 @@ RUN dnf upgrade -y \
   && tar xvzf /opt/pandoc.tar.gz --strip-components 1 -C /usr/ \
   && rm /opt/pandoc.tar.gz
 
-LABEL base.image="ci-base-build:1.0.0" \
+LABEL base.image="ci-base-build:1.0.5" \
   repostory.name="ci-pandoc-task"
 
 ENTRYPOINT [ "/bin/bash" ]
